@@ -28,6 +28,8 @@ docker volume create --driver local --name=${PGWAL_VOL?}
 docker volume create --driver local --name=${BACKUP_VOL?}
 
 docker run \
+    --memory=16384m \
+    --cpus=2 \
     --name=${CONTAINER_NAME?} \
     --hostname=${CONTAINER_NAME?} \
     --publish=5432:5432 \
@@ -47,4 +49,5 @@ docker run \
     --env=PGHOST=/tmp \
     --env=XLOGDIR=true \
     --env=PGBACKREST=true \
-    --detach ${CCP_IMAGE_PREFIX?}/crunchy-postgres:${CCP_IMAGE_TAG?}
+    --env=POSTGRESQL_TYPE=admindb \
+    --detach test # ${CCP_IMAGE_PREFIX?}/crunchy-postgres:${CCP_IMAGE_TAG?}
